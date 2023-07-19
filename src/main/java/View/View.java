@@ -13,6 +13,7 @@ public class View extends JFrame {
     public JTextArea descriptiontxt;
     public JDateChooser dateChooser;
     public Choice priorityChoice;
+    public JTable tasksTable;
     public View(){
 
         JPanel contentPane = createMainPannel();
@@ -69,7 +70,7 @@ public class View extends JFrame {
         panelProject.add(priorityChoice);
     }
 
-    private static void createAddOrCancelView(JPanel contentPane) {
+    private void createAddOrCancelView(JPanel contentPane) {
         JPanel panel = new JPanel();
         contentPane.add(panel);
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
@@ -84,7 +85,7 @@ public class View extends JFrame {
         panel.add(btnCancel);
     }
 
-    private static void createTableTaskView(JPanel contentPane) {
+    private void createTableTaskView(JPanel contentPane) {
         JPanel panelData = new JPanel();
         contentPane.add(panelData);
         panelData.setBorder(new TitledBorder(null, "Tasks", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -93,15 +94,15 @@ public class View extends JFrame {
         JScrollPane scrollPane = new JScrollPane();
         panelData.add(scrollPane);
 
-        JTable projectsTable = new JTable();
-        projectsTable.setModel(new DefaultTableModel(
+        tasksTable = new JTable();
+        tasksTable.setModel(new DefaultTableModel(
                 new Object[][] {
                 },
                 new String[] {
                         "NAME", "DESCRIPTION","DEADLINE", "Priority"
                 }
         ));
-        scrollPane.setViewportView(projectsTable);
+        scrollPane.setViewportView(tasksTable);
     }
 
     /*This method create vertical margin between gui elements
