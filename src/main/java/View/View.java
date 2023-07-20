@@ -9,11 +9,13 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class View extends JFrame {
-    public JTextField txtName;
+    public JTextField titletxt;
     public JTextArea descriptiontxt;
     public JDateChooser dateChooser;
     public Choice priorityChoice;
     public JTable tasksTable;
+    public JButton btnAdd;
+    public JButton btnCancel;
     public View(){
 
         JPanel contentPane = createMainPannel();
@@ -43,10 +45,9 @@ public class View extends JFrame {
 
         createLabel("Name:", panelProject);
 
-        txtName = new JTextField();
-        txtName.setHorizontalAlignment(SwingConstants.LEFT);
-        panelProject.add(txtName);
-        txtName.setColumns(10);
+        titletxt = new JTextField();
+        titletxt.setHorizontalAlignment(SwingConstants.LEFT);
+        panelProject.add(titletxt);
 
         spaceBetweenElements(panelProject);
 
@@ -67,6 +68,9 @@ public class View extends JFrame {
         createLabel("Priority:", panelProject);
 
         priorityChoice = new Choice();
+        priorityChoice.add("High");
+        priorityChoice.add("Mid");
+        priorityChoice.add("Low");
         panelProject.add(priorityChoice);
     }
 
@@ -78,10 +82,10 @@ public class View extends JFrame {
         Component horizontalGlue = Box.createHorizontalGlue();
         panel.add(horizontalGlue);
 
-        JButton btnAdd = new JButton("Add");
+        btnAdd = new JButton("Add");
         panel.add(btnAdd);
 
-        JButton btnCancel = new JButton("Cancel");
+        btnCancel = new JButton("Cancel");
         panel.add(btnCancel);
     }
 
@@ -99,7 +103,7 @@ public class View extends JFrame {
                 new Object[][] {
                 },
                 new String[] {
-                        "NAME", "DESCRIPTION","DEADLINE", "Priority"
+                        "NAME", "DESCRIPTION","DEADLINE", "PRIORITY"
                 }
         ));
         scrollPane.setViewportView(tasksTable);

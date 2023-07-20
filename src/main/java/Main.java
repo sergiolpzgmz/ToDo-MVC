@@ -12,7 +12,6 @@ public class Main {
         frame.setVisible(true);
         Controller controller = new Controller(frame);
 
-        TaskRepositoryImp t = new TaskRepositoryImp();
-        t.listTasks();
+
     }
 }

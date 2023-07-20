@@ -3,26 +3,30 @@ package Repository;
 import Model.Task;
 import Util.DataBaseConnection;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskRepositoryImp implements Repository<Task> {
+public class TaskRepositoryImp implements AllTasksRepository<Task> {
 
-    /*Returns the instance of the connection obtained
-    * in the DataBaseConnection class after invoking
-    * the getConnectionInstance() method*/
+    /**
+     * Create connection
+     *
+     * @return the instance of the connection obtained
+     * in the DataBaseConnection class after invoking
+     * the getConnectionInstance() method
+     */
     private Connection getConnection() throws SQLException {
         return DataBaseConnection.getInstance();
     }
 
-    //Returns a new array with the list of tasks that contains the database
+    /**
+     * Launches a database query to list the tasks.
+     * @return a new array with the list of tasks that contains the database
+     */
     @Override
-    public List<Task> listTasks() throws SQLException {
-        List<Task>tasks = new ArrayList<Task>();
+    public List<Task> listTasks() {
+        List<Task>tasks = new ArrayList<>();
 
         try (Statement stmt = getConnection().createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM task")) {
@@ -41,4 +45,26 @@ public class TaskRepositoryImp implements Repository<Task> {
         }
         return tasks;
     }
+
+    /**
+     * insert into database the new task
+     *
+     * @param task task to be added
+     */
+    @Override
+    public void insertNewTask(Task task) {
+        String sqlInsert = "INSERT INTO task(name, description, deadline, priority) VALUES (?,?,?,?)";
+
+        try(PreparedStatement stmt = getConnection().prepareStatement(sqlInsert)){
+            stmt.setString(1, task.getName());
+            stmt.setString(2, task.getDescription());
+            stmt.setDate(3, new Date(task.getDeadline().getTime()));
+            stmt.setString(4, task.getPriority());
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
