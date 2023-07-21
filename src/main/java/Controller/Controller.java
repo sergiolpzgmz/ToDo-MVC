@@ -8,6 +8,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.Date;
 
@@ -25,6 +27,7 @@ public class Controller implements ActionListener {
         this.view.btnCancel.addActionListener(this);
 
         listTasks(view.tasksTable);
+        selectTableRows(view.tasksTable);
     }
 
     @Override
@@ -57,13 +60,14 @@ public class Controller implements ActionListener {
     private void listTasks(JTable table) throws SQLException {
         tableModel = (DefaultTableModel) table.getModel();
         tableModel.setRowCount(0);
-        Object[] object = new Object[4];
+        Object[] object = new Object[5];
 
         for (Task listTask : taskListDB.listTasks()) {
             object[0] = listTask.getName();
             object[1] = listTask.getDescription();
             object[2] = listTask.getDeadline();
             object[3] = listTask.getPriority();
+            object[4] = listTask.isFinished() ? "Yes":"No" ;
 
             tableModel.addRow(object);
         }
@@ -80,9 +84,10 @@ public class Controller implements ActionListener {
         String description = view.descriptiontxt.getText();
         Date deadline = view.dateChooser.getDate();
         String priority = view.priorityChoice.getSelectedItem();
+        boolean isFinished = view.isFinished.isSelected();
 
         // Create task and insert into database
-        Task task = new Task(name,description,deadline,priority);
+        Task task = new Task(name,description,deadline,priority,isFinished);
         taskListDB.insertNewTask(task);
     }
 
@@ -92,7 +97,26 @@ public class Controller implements ActionListener {
         view.descriptiontxt.setText("");
         view.dateChooser.setDate(null);
         view.priorityChoice.select(0);
-        System.out.println(" ejecutado");
     }
+
+    /**
+     * When the user clicks on the task, the information of the selected task appears in the form.
+     *
+     * @param jTable the table showing the database information*/
+    private void selectTableRows(JTable jTable){
+        view.tasksTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int selectedRow = jTable.getSelectedRow();
+
+                view.titletxt.setText(jTable.getValueAt(selectedRow,0).toString());
+                view.descriptiontxt.setText(jTable.getValueAt(selectedRow,1).toString());
+                view.dateChooser.setDate((Date) jTable.getValueAt(selectedRow,2));
+                view.priorityChoice.select(jTable.getValueAt(selectedRow,3).toString());
+                view.isFinished.setSelected(jTable.getValueAt(selectedRow, 4).equals("Yes"));
+            }
+        });
+    }
+
 
 }

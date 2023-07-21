@@ -14,8 +14,10 @@ public class View extends JFrame {
     public JDateChooser dateChooser;
     public Choice priorityChoice;
     public JTable tasksTable;
+    public JRadioButton isFinished;
     public JButton btnAdd;
     public JButton btnCancel;
+    public JButton btnUpdate;
     public View(){
 
         JPanel contentPane = createMainPannel();
@@ -41,10 +43,9 @@ public class View extends JFrame {
         JPanel panelProject = new JPanel();
         panelProject.setBorder(new TitledBorder(null, "Add Task", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         contentPane.add(panelProject);
-        panelProject.setLayout(new GridLayout(8, 8));
+        panelProject.setLayout(new GridLayout(9, 8));
 
         createLabel("Name:", panelProject);
-
         titletxt = new JTextField();
         titletxt.setHorizontalAlignment(SwingConstants.LEFT);
         panelProject.add(titletxt);
@@ -52,38 +53,45 @@ public class View extends JFrame {
         spaceBetweenElements(panelProject);
 
         createLabel("Description:", panelProject);
-
         descriptiontxt = new JTextArea();
         panelProject.add(descriptiontxt);
 
         spaceBetweenElements(panelProject);
 
         createLabel("Deadline:", panelProject);
-
         dateChooser = new JDateChooser();
         panelProject.add(dateChooser);
 
         spaceBetweenElements(panelProject);
 
         createLabel("Priority:", panelProject);
-
         priorityChoice = new Choice();
         priorityChoice.add("High");
         priorityChoice.add("Mid");
         priorityChoice.add("Low");
         panelProject.add(priorityChoice);
+
+        spaceBetweenElements(panelProject);
+
+        createLabel("", panelProject);
+        isFinished = new JRadioButton("Finished");
+        panelProject.add(isFinished);
     }
 
     private void createAddOrCancelView(JPanel contentPane) {
         JPanel panel = new JPanel();
         contentPane.add(panel);
-        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-
-        Component horizontalGlue = Box.createHorizontalGlue();
-        panel.add(horizontalGlue);
+        panel.setLayout(new FlowLayout(FlowLayout.CENTER, 0,5));
 
         btnAdd = new JButton("Add");
         panel.add(btnAdd);
+
+        panel.add(Box.createHorizontalStrut(3));
+
+        btnUpdate = new JButton("Update");
+        panel.add(btnUpdate);
+
+        panel.add(Box.createHorizontalStrut(3));
 
         btnCancel = new JButton("Cancel");
         panel.add(btnCancel);
@@ -103,14 +111,18 @@ public class View extends JFrame {
                 new Object[][] {
                 },
                 new String[] {
-                        "NAME", "DESCRIPTION","DEADLINE", "PRIORITY"
+                        "NAME", "DESCRIPTION","DEADLINE", "PRIORITY", "FINISHED"
                 }
         ));
         scrollPane.setViewportView(tasksTable);
+
     }
 
-    /*This method create vertical margin between gui elements
-     *  -receives the panel on which the margin is to be created */
+    /**
+     * Create vertical margin between gui elements
+     *
+     * @param panelProject the panel on which the margin is to be created
+     * */
     private static void spaceBetweenElements(JPanel panelProject) {
         Component verticalStrut = Box.createVerticalStrut(5);
         panelProject.add(verticalStrut);

@@ -37,6 +37,7 @@ public class TaskRepositoryImp implements AllTasksRepository<Task> {
                 task.setDescription(rs.getString("description"));
                 task.setDeadline(rs.getDate("deadline"));
                 task.setPriority(rs.getString("priority"));
+                task.setFinished(rs.getBoolean("finished"));
 
                 tasks.add(task);
             }
@@ -53,13 +54,14 @@ public class TaskRepositoryImp implements AllTasksRepository<Task> {
      */
     @Override
     public void insertNewTask(Task task) {
-        String sqlInsert = "INSERT INTO task(name, description, deadline, priority) VALUES (?,?,?,?)";
+        String sqlInsert = "INSERT INTO task(name, description, deadline, priority, finished) VALUES (?,?,?,?,?)";
 
         try(PreparedStatement stmt = getConnection().prepareStatement(sqlInsert)){
             stmt.setString(1, task.getName());
             stmt.setString(2, task.getDescription());
             stmt.setDate(3, new Date(task.getDeadline().getTime()));
             stmt.setString(4, task.getPriority());
+            stmt.setBoolean(5, task.isFinished());
 
             stmt.executeUpdate();
         } catch (SQLException e) {
