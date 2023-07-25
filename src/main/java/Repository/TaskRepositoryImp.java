@@ -33,6 +33,8 @@ public class TaskRepositoryImp implements AllTasksRepository<Task> {
 
             while (rs.next()){
                 Task task = new Task();
+
+                task.setId(rs.getInt("id"));
                 task.setName(rs.getString("name"));
                 task.setDescription(rs.getString("description"));
                 task.setDeadline(rs.getDate("deadline"));
@@ -69,4 +71,38 @@ public class TaskRepositoryImp implements AllTasksRepository<Task> {
         }
     }
 
+    /**
+     * update selected task
+     *
+     * @param task task to be updated
+     */
+    @Override
+    public void updateTask(Task task, int id) {
+        String sqlUpdate = "UPDATE task set name=?, description=?, deadline=?, priority=?, finished=? WHERE id="+id;
+
+        try(PreparedStatement stmt = getConnection().prepareStatement(sqlUpdate)){
+            stmt.setString(1, task.getName());
+            stmt.setString(2, task.getDescription());
+            stmt.setDate(3, new Date(task.getDeadline().getTime()));
+            stmt.setString(4, task.getPriority());
+            stmt.setBoolean(5, task.isFinished());
+
+            stmt.executeUpdate();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * removes selected tasks based on the id
+     *
+     * @param id id of the task to be deleted*/
+    @Override
+    public void deleteTask(int id) {
+        try(PreparedStatement stmt = getConnection().prepareStatement("DELETE FROM task WHERE id="+id)){
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

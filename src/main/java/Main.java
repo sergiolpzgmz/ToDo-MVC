@@ -1,9 +1,6 @@
 import Controller.Controller;
-import Repository.TaskRepositoryImp;
-import Util.DataBaseConnection;
 import View.View;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 
 public class Main {

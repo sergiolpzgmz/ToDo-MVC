@@ -18,15 +18,15 @@ public class View extends JFrame {
     public JButton btnAdd;
     public JButton btnCancel;
     public JButton btnUpdate;
+    public JButton btnDelete;
     public View(){
 
         JPanel contentPane = createMainPannel();
 
         createNewTaskView(contentPane);
-
         createAddOrCancelView(contentPane);
-
         createTableTaskView(contentPane);
+        createBtnDelete(contentPane);
     }
     private JPanel createMainPannel() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -89,6 +89,7 @@ public class View extends JFrame {
         panel.add(Box.createHorizontalStrut(3));
 
         btnUpdate = new JButton("Update");
+        btnUpdate.setEnabled(false);
         panel.add(btnUpdate);
 
         panel.add(Box.createHorizontalStrut(3));
@@ -116,6 +117,15 @@ public class View extends JFrame {
         ));
         scrollPane.setViewportView(tasksTable);
 
+    }
+
+    private void createBtnDelete(JPanel contentPane){
+        JPanel panel = new JPanel();
+        contentPane.add(panel);
+        panel.setLayout(new FlowLayout(FlowLayout.CENTER, 0,5));
+
+        btnDelete = new JButton("Delete");
+        panel.add(btnDelete);
     }
 
     /**
