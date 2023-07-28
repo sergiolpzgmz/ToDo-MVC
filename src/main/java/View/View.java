@@ -20,14 +20,14 @@ public class View extends JFrame {
     public JButton btnUpdate;
     public JButton btnDelete;
     public View(){
-
         JPanel contentPane = createMainPannel();
 
         createNewTaskView(contentPane);
-        createAddOrCancelView(contentPane);
+        createOptionBtnView(contentPane);
         createTableTaskView(contentPane);
         createBtnDelete(contentPane);
     }
+
     private JPanel createMainPannel() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100,100,450,521);
@@ -39,46 +39,81 @@ public class View extends JFrame {
         return contentPane;
     }
 
+    /**
+     * form view to create new task
+     *
+     * @param contentPane provided layout view*/
     private void createNewTaskView(JPanel contentPane) {
         JPanel panelProject = new JPanel();
         panelProject.setBorder(new TitledBorder(null, "Add Task", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         contentPane.add(panelProject);
-        panelProject.setLayout(new GridLayout(9, 8));
 
-        createLabel("Name:", panelProject);
+        GroupLayout layout = new GroupLayout(panelProject);
+        panelProject.setLayout(layout);
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+
+        JLabel nameLabel = createLabel("Name:");
         titletxt = new JTextField();
-        titletxt.setHorizontalAlignment(SwingConstants.LEFT);
-        panelProject.add(titletxt);
 
-        spaceBetweenElements(panelProject);
+        JLabel descriptionLabel = createLabel("Description:");
+        descriptiontxt = new JTextArea(5, 30);
 
-        createLabel("Description:", panelProject);
-        descriptiontxt = new JTextArea();
-        panelProject.add(descriptiontxt);
-
-        spaceBetweenElements(panelProject);
-
-        createLabel("Deadline:", panelProject);
+        JLabel deadlineLabel = createLabel("Deadline:");
         dateChooser = new JDateChooser();
-        panelProject.add(dateChooser);
 
-        spaceBetweenElements(panelProject);
-
-        createLabel("Priority:", panelProject);
+        JLabel priorityLabel = createLabel("Priority:");
         priorityChoice = new Choice();
         priorityChoice.add("High");
         priorityChoice.add("Mid");
         priorityChoice.add("Low");
-        panelProject.add(priorityChoice);
 
-        spaceBetweenElements(panelProject);
-
-        createLabel("", panelProject);
         isFinished = new JRadioButton("Finished");
-        panelProject.add(isFinished);
+
+        GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
+        hGroup.addGroup(layout.createParallelGroup()
+                .addComponent(nameLabel)
+                .addComponent(descriptionLabel)
+                .addComponent(deadlineLabel)
+                .addComponent(priorityLabel)
+        );
+        hGroup.addGroup(layout.createParallelGroup()
+                .addComponent(titletxt)
+                .addComponent(descriptiontxt)
+                .addComponent(dateChooser)
+                .addComponent(priorityChoice)
+                .addComponent(isFinished)
+        );
+        layout.setHorizontalGroup(hGroup);
+
+        GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
+        vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(nameLabel)
+                .addComponent(titletxt)
+        );
+        vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(descriptionLabel)
+                .addComponent(descriptiontxt)
+        );
+        vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(deadlineLabel)
+                .addComponent(dateChooser)
+        );
+        vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(priorityLabel)
+                .addComponent(priorityChoice)
+        );
+        vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(isFinished)
+        );
+        layout.setVerticalGroup(vGroup);
     }
 
-    private void createAddOrCancelView(JPanel contentPane) {
+    /**
+     * form view to create option buttons
+     *
+     * @param contentPane provided layout view*/
+    private void createOptionBtnView(JPanel contentPane) {
         JPanel panel = new JPanel();
         contentPane.add(panel);
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 0,5));
@@ -98,6 +133,10 @@ public class View extends JFrame {
         panel.add(btnCancel);
     }
 
+    /**
+     * form view to create task table view
+     *
+     * @param contentPane provided layout view*/
     private void createTableTaskView(JPanel contentPane) {
         JPanel panelData = new JPanel();
         contentPane.add(panelData);
@@ -118,7 +157,10 @@ public class View extends JFrame {
         scrollPane.setViewportView(tasksTable);
 
     }
-
+    /**
+     * form view to create delete button
+     *
+     * @param contentPane provided layout view*/
     private void createBtnDelete(JPanel contentPane){
         JPanel panel = new JPanel();
         contentPane.add(panel);
@@ -128,20 +170,9 @@ public class View extends JFrame {
         panel.add(btnDelete);
     }
 
-    /**
-     * Create vertical margin between gui elements
-     *
-     * @param panelProject the panel on which the margin is to be created
-     * */
-    private static void spaceBetweenElements(JPanel panelProject) {
-        Component verticalStrut = Box.createVerticalStrut(5);
-        panelProject.add(verticalStrut);
-        verticalStrut = Box.createVerticalStrut(5);
-        panelProject.add(verticalStrut);
-    }
-
-    private static void createLabel(String text, JPanel panelProject) {
-        JLabel namelbl = new JLabel(text);
-        panelProject.add(namelbl);
+    private static JLabel createLabel(String text) {
+        JLabel label = new JLabel(text);
+        label.setHorizontalAlignment(SwingConstants.LEFT);
+        return label;
     }
 }

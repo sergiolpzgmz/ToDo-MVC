@@ -17,7 +17,6 @@ public class Controller implements ActionListener {
     View view;
     TaskRepositoryImp taskListDB;
     DefaultTableModel tableModel;
-    Task task;
 
     public Controller(View view) throws SQLException {
         this.view = view;
@@ -40,6 +39,11 @@ public class Controller implements ActionListener {
         updateBtnAction(e);
         deleteBtnAction(e);
     }
+    /**
+     * Handles the click event of the "Add" button in the GUI, calls the insertNewTaskAction() and listTasksAction() methods
+     *
+     * @param e checks whether the event was triggered by clicking the "Add" button.
+     */
     private void addBtnAction(ActionEvent e) {
         if(e.getSource()==view.btnAdd) {
             insertNewTaskAction();
@@ -51,7 +55,11 @@ public class Controller implements ActionListener {
             }
         }
     }
-
+    /**
+     * Handles the click event of the "Cancel" button in the GUI, calls the clearForm() and enableBtns() methods
+     *
+     * @param e checks whether the event was triggered by clicking the "Cancel" button.
+     */
     private void cancelBtnAction(ActionEvent e){
         if(e.getSource()==view.btnCancel) {
             clearForm();
@@ -61,7 +69,11 @@ public class Controller implements ActionListener {
         }
 
     }
-
+    /**
+     * Handles the click event of the "Update" button in the GUI, calls the updateTaskAction() and listTaskAction() methods
+     *
+     * @param e checks whether the event was triggered by clicking the "Cancel" button.
+     */
     private void updateBtnAction(ActionEvent e){
         if(e.getSource()==view.btnUpdate) updateTaskAction();
         try {
@@ -70,7 +82,11 @@ public class Controller implements ActionListener {
             throw new RuntimeException(ex);
         }
     }
-
+    /**
+     * Handles the click event of the "Update" button in the GUI, calls the updateTaskAction() and listTaskAction() methods
+     *
+     * @param e checks whether the event was triggered by clicking the "Cancel" button.
+     */
     private void deleteBtnAction(ActionEvent e) {
         if(e.getSource()==view.btnDelete) deleteTaskAction();
         try {
@@ -115,6 +131,7 @@ public class Controller implements ActionListener {
         taskListDB.insertNewTask(taskToInsert);
     }
 
+    // Update selected task
     private void updateTaskAction(){
         // accessing view data
         Task taskToUpdate = newFormValuesTask();
@@ -169,18 +186,23 @@ public class Controller implements ActionListener {
      * @return new task
      * */
     private Task newFormValuesTask() {
-        String name = view.titletxt.getText();
-        String description = view.descriptiontxt.getText();
-        Date deadline = view.dateChooser.getDate();
-        String priority = view.priorityChoice.getSelectedItem();
-        boolean isFinished = view.isFinished.isSelected();
+            String name = view.titletxt.getText();
+            String description = view.descriptiontxt.getText();
+            Date deadline = view.dateChooser.getDate();
+            String priority = view.priorityChoice.getSelectedItem();
+            boolean isFinished = view.isFinished.isSelected();
 
-        return new Task (name, description, deadline, priority, isFinished);
+            return new Task (name, description, deadline, priority, isFinished);
     }
 
+    /**
+     * Change the status of the buttons
+     *
+     * @param isAddEnable indicates if the add button can be pressed
+     * @param isUpdateEnable indicates if the update button can be pressed
+     * */
     private void enableBtns(boolean isAddEnable, boolean isUpdateEnable){
         view.btnAdd.setEnabled(isAddEnable);
         view.btnUpdate.setEnabled(isUpdateEnable);
-
     }
 }

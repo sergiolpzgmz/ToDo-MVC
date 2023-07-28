@@ -61,7 +61,13 @@ public class TaskRepositoryImp implements AllTasksRepository<Task> {
         try(PreparedStatement stmt = getConnection().prepareStatement(sqlInsert)){
             stmt.setString(1, task.getName());
             stmt.setString(2, task.getDescription());
-            stmt.setDate(3, new Date(task.getDeadline().getTime()));
+
+            if(task.getDeadline() == null){
+                // Insert empty date
+                stmt.setNull(3, Types.DATE);
+            }
+            else{ stmt.setDate(3, new Date(task.getDeadline().getTime())); }
+
             stmt.setString(4, task.getPriority());
             stmt.setBoolean(5, task.isFinished());
 
