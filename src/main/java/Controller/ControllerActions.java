@@ -4,8 +4,8 @@ import javax.swing.*;
 import java.sql.SQLException;
 
 public interface ControllerActions {
-    public void listTasksAction(JTable table) throws SQLException;
-    public void insertNewTaskAction();
-    public void updateTaskAction();
-    public void deleteTaskAction();
+    void listTasksAction(JTable table) throws SQLException;
+    void insertNewTaskAction();
+    void updateTaskAction();
+    void deleteTaskAction();
 }
