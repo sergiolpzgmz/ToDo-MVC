@@ -12,7 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.Date;
-public class Controller implements ActionListener {
+public class Controller implements ActionListener, ControllerActions {
     private static int selectedRowValue = -1;
     View view;
     TaskRepositoryImp taskListDB;
@@ -101,6 +101,7 @@ public class Controller implements ActionListener {
     *
     * @param table the Jtable element
     */
+    @Override
     public void listTasksAction(JTable table) throws SQLException {
         tableModel = (DefaultTableModel) table.getModel();
         tableModel.setRowCount(0);
@@ -123,7 +124,8 @@ public class Controller implements ActionListener {
      * Accesses the view data, retrieves it, creates a task object and inserts it
      * into the database.
      */
-    private void insertNewTaskAction(){
+    @Override
+    public void insertNewTaskAction(){
         // accessing view data
         Task taskToInsert = newFormValuesTask();
 
@@ -132,7 +134,8 @@ public class Controller implements ActionListener {
     }
 
     // Update selected task
-    private void updateTaskAction(){
+    @Override
+    public void updateTaskAction(){
         // accessing view data
         Task taskToUpdate = newFormValuesTask();
 
@@ -144,7 +147,8 @@ public class Controller implements ActionListener {
     }
 
     // removes the selected task based on id
-    private void deleteTaskAction(){
+    @Override
+    public void deleteTaskAction(){
         int id = taskListDB.listTasks().get(selectedRowValue).getId();
         taskListDB.deleteTask(id);
     }
