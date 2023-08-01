@@ -22,6 +22,7 @@ public class TaskRepositoryImp implements AllTasksRepository<Task> {
 
     /**
      * Launches a database query to list the tasks.
+     *
      * @return a new array with the list of tasks that contains the database
      */
     @Override
