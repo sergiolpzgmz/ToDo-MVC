@@ -8,6 +8,6 @@ public class Main {
         View frame = new View();
         frame.setTitle("Todo App");
         frame.setVisible(true);
-        Controller controller = new Controller(frame);
+        new Controller(frame);
     }
 }
