@@ -85,7 +85,7 @@ public class TaskRepositoryImp implements AllTasksRepository<Task> {
      */
     @Override
     public void updateTask(Task task, int id) {
-        String sqlUpdate = "UPDATE task set name=?, description=?, deadline=?, priority=?, finished=? WHERE id="+id;
+        String sqlUpdate = "UPDATE task set name=?, description=?, deadline=?, priority=?, finished=? WHERE id=?";
 
         try(PreparedStatement stmt = getConnection().prepareStatement(sqlUpdate)){
             stmt.setString(1, task.getName());
@@ -93,6 +93,7 @@ public class TaskRepositoryImp implements AllTasksRepository<Task> {
             stmt.setDate(3, new Date(task.getDeadline().getTime()));
             stmt.setString(4, task.getPriority());
             stmt.setBoolean(5, task.isFinished());
+            stmt.setInt(6,id);
 
             stmt.executeUpdate();
         } catch (Exception e){
@@ -106,7 +107,8 @@ public class TaskRepositoryImp implements AllTasksRepository<Task> {
      * @param id id of the task to be deleted*/
     @Override
     public void deleteTask(int id) {
-        try(PreparedStatement stmt = getConnection().prepareStatement("DELETE FROM task WHERE id="+id)){
+        try(PreparedStatement stmt = getConnection().prepareStatement("DELETE FROM task WHERE id=?")){
+            stmt.setInt(1,id);
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

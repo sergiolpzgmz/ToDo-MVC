@@ -47,7 +47,7 @@ public class Controller implements ActionListener, ControllerActions {
     private void addBtnAction(ActionEvent e) {
         if(e.getSource()==view.btnAdd) {
             insertNewTaskAction();
-
+            clearForm();
             try {
                 listTasksAction(view.tasksTable);
             } catch (SQLException ex) {
@@ -75,7 +75,11 @@ public class Controller implements ActionListener, ControllerActions {
      * @param e checks whether the event was triggered by clicking the "Cancel" button.
      */
     private void updateBtnAction(ActionEvent e){
-        if(e.getSource()==view.btnUpdate) updateTaskAction();
+        if(e.getSource()==view.btnUpdate) {
+            updateTaskAction();
+            clearForm();
+            enableBtns(true,false);
+        }
         try {
             listTasksAction(view.tasksTable);
         } catch (SQLException ex) {
