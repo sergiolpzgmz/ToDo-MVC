@@ -15,7 +15,7 @@ After importing you may need to change the database access data in the DataBaseC
 
 # UML Class diagram
 <div class="container">
-        <img src="https://github.com/sergiolpzgmz/ToDo-MVC/blob/master/documentation/UML.png" alt="UML" width="600em">
+        <img src="https://github.com/sergiolpzgmz/ToDo-MVC/blob/master/documentation/TodoAppUML.png" alt="UML" width="600em">
 </div>
 
 # Demo
